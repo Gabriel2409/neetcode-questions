@@ -1,0 +1,16 @@
+{
+  "configurations": {
+    "Run-current-file": {
+      "adapter": "debugpy",
+      "configuration": {
+        "request": "launch",
+        "protocol": "auto",
+        "stopOnEntry": true,
+        "console": "integratedTerminal",
+        "python": "venv/bin/python",
+        "program": "${file}",
+        "cwd": "${workspaceRoot}"
+      }
+    }
+  }
+}
