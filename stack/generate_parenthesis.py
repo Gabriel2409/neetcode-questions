@@ -58,4 +58,3 @@ if __name__ == "__main__":
     # print(generate_parenthesis(4))
     for i in range(20):
         generate_parenthesis(i)
-
