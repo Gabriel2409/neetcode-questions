@@ -18,17 +18,14 @@ def preorder_traversal_recursive(root: Optional[TreeNode]):
     Then you go on the left and when you run out of left, you go on the right
     """
 
-    def next_node(node):
-        final.append(node.val)
-        if node.left:
-            next_node(node.left)
-        if node.right:
-            next_node(node.right)
-
     if not root:
         return []
-    final = []
-    next_node(root)
+    node = root
+    final = [node.val]
+    if node.left:
+        final.extend(preorder_traversal_recursive(node.left))
+    if node.right:
+        final.extend(preorder_traversal_recursive(node.right))
     return final
 
 
