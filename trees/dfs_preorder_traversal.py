@@ -33,38 +33,23 @@ def preorder_traversal_recursive(root: Optional[TreeNode]):
 
 
 def preorder_traversal_iterative(root: Optional[TreeNode]):
-    """Each time you reach a node, you add the value.
-    Then you go on the left and when you run out of left, you go on the right
-    The idea is to remember from where you went back (the up variable)so that we can
-    decide where to go next
+    """Instead of using the recursion stack, create the stack yourself.
+    At each loop, pop the stack, then add the right and left. Because right is
+    added before, you ensure left is popped first.
     """
     if not root:
         return []
+
     final = []
-    up = 0
+    stack = [root]
 
-    node = root
-    stack: List[Tuple[TreeNode, int]] = [(root, 2)]
-    while node:
-        if up == 0:
-            final.append(node.val)
-        if node.left and up < 1:
-            next_node = node.left
-            stack.append((next_node, 1))
-            up = 0
-        elif node.right and up < 2:
-            next_node = node.right
-            stack.append((next_node, 2))
-            up = 0
-        else:
-            _, up = stack[-1]
-            stack.pop()
-            if stack:
-                next_node, _ = stack[-1]
-            else:
-                next_node = None
-
-        node = next_node
+    while stack:
+        node = stack.pop()
+        final.append(node.val)
+        if node.right:
+            stack.append(node.right)
+        if node.left:
+            stack.append(node.left)
 
     return final
 
