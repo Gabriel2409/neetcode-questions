@@ -1,7 +1,7 @@
 # Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
 
 from collections import deque
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 
 class TreeNode:
@@ -14,6 +14,26 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+
+
+def level_order_one_final_list(root: Optional[TreeNode]) -> List[int]:
+    """Same as below but every node in one list (no separation per level)"""
+
+    if not root:
+        return []
+
+    queue = deque()
+    final = []
+    queue.append(root)
+    while queue:
+        node = queue.popleft()
+        final.append(node.val)
+        if node.left:
+            queue.append(node.left)
+        if node.right:
+            queue.append(node.right)
+
+    return final
 
 
 def level_order(root: Optional[TreeNode]) -> List[List[int]]:
@@ -42,12 +62,12 @@ def level_order(root: Optional[TreeNode]) -> List[List[int]]:
     return final
 
 
-def level_order_list_per_level(root: Optional[TreeNode]) -> List[int]:
+def level_order_list_per_level(root: Optional[TreeNode]) -> List[List[int]]:
     """level order with one list per level"""
 
-    def get_level_nodes(nodes: List[TreeNode]):
-        level = []
-        vals = []
+    def get_level_nodes(nodes: List[TreeNode]) -> Tuple[List[TreeNode], List[int]]:
+        level: List[TreeNode] = []
+        vals: List[int] = []
         for node in nodes:
             if node.left:
                 level.append(node.left)
@@ -60,9 +80,9 @@ def level_order_list_per_level(root: Optional[TreeNode]) -> List[int]:
     if not root:
         return []
 
-    final = []
-    level = [root]
-    vals = [root.val]
+    final: List[List[int]] = []
+    level: List[TreeNode] = [root]
+    vals: List[int] = [root.val]
     while level:
         final.append(vals)
         level, vals = get_level_nodes(level)
