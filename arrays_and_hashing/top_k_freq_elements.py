@@ -15,7 +15,7 @@ def top_k(nums: List[int], k: int) -> List[int]:
     """
     n = len(nums)
     max_count = 0
-    arr = [[] for i in range(n)]
+    arr = [[] for _ in range(n+1)]
 
     el_counter = {}
     final = []
