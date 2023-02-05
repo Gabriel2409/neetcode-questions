@@ -27,7 +27,7 @@ def group_anagrams(strs: List[str]) -> List[List[str]]:
 
     full_dict = {}
     for str_ in strs:
-        list_of_letters = [0] * 26
+        list_of_letters = [0 for el in range(26)]
         for letter in str_:
             list_of_letters[ord(letter) - ord("a")] += 1
         dict_key = tuple(list_of_letters)
