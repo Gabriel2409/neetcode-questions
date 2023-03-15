@@ -1,4 +1,5 @@
 # Given the root of a binary tree, retur n the preorder traversal of its nodes' values.
+# order: root, left, right
 
 from typing import List, Optional, Tuple
 
@@ -58,4 +59,4 @@ n2 = TreeNode(2)
 r.left = n1
 r.right = n2
 if __name__ == "__main__":
-    print(preorder_traversal_iterative(r))
+    print(preorder_traversal_recursive(r))

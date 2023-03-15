@@ -47,14 +47,49 @@ def generate_parenthesis(n: int) -> List[str]:
     res = []
     populate(0, 0)
     b = perf_counter()
-    print(f"Perf for n={n}", b - a)
+    print(f"Recursive Perf for n={n}", b - a)
     return res
+
+
+def generate_parenthesis_iterative(n: int) -> list[str]:
+    a = perf_counter()
+    output:list[str] = []
+    cur = []
+    l = 0
+    r = 0
+    if n == 0:
+        return []
+    while True:
+        while l < n:
+            cur.append("(")
+            l = l + 1
+        while r < n:
+            cur.append(")")
+            r = r + 1
+
+        output.append("".join(cur))
+        while cur:
+            if l == 1:
+                b = perf_counter()
+                print(f"Iterative Perf for n={n}", b - a)
+                return output
+            val = cur.pop()
+            if val == ")":
+                r = r - 1
+            else:
+                l = l - 1
+                if r < l:
+                    cur.append(")")
+                    r = r + 1
+                    break
 
 
 if __name__ == "__main__":
     # print(generate_parenthesis(1))
     # print(generate_parenthesis(2))
-    print(generate_parenthesis(3))
+    # print(generate_parenthesis(3))
     # print(generate_parenthesis(4))
     for i in range(20):
         generate_parenthesis(i)
+        generate_parenthesis_iterative(i)
+    # print(generate_parenthesis_iterative(3))

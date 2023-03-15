@@ -89,7 +89,6 @@ def level_order_list_per_level(root: Optional[TreeNode]) -> List[List[int]]:
 
     return final
 
-
 if __name__ == "__main__":
     root = TreeNode(1)
     root.left = TreeNode(2)

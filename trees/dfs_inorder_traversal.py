@@ -41,22 +41,38 @@ def inorder_traversal_iterative(root: Optional[TreeNode]):
     If not, pop the last node and go right.
     Repeat until stack is empty
     """
-    if not root:
-        return []
+    # if not root:
+    #     return []
 
     final = []
-    stack = [root]
-    node = root.left
+    stack = []
+    node = root
 
     while True:
-        if node:
+        while node:
             stack.append(node)
             node = node.left
 
-        elif stack:
+        if stack:
             node = stack.pop()
             final.append(node.val)
             node = node.right
 
         else:
             return final
+
+r = TreeNode(4)
+n1 = TreeNode(2)
+n2 = TreeNode(6)
+n3 = TreeNode(1)
+n4 = TreeNode(3)
+n5 = TreeNode(5)
+
+r.left = n1
+r.right = n2
+n1.left = n3
+n1.right = n4
+n2.left = n5
+
+
+print(inorder_traversal_iterative(r))
