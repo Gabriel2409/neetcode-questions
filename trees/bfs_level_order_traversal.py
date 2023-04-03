@@ -1,4 +1,6 @@
 # Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+#Note : when doing bfs, to keep track of the level, either store it in the queue 
+# or use a for loop on the length of queue when starting a new level (to only pop the elements of a level at a given iteration)
 
 from collections import deque
 from typing import List, Optional, Tuple
@@ -62,6 +64,32 @@ def level_order(root: Optional[TreeNode]) -> List[List[int]]:
     return final
 
 
+def level_order_variation(root: Optional[TreeNode]) -> List[List[int]]:
+    """levels are separated in their own list
+    Time and space comp: O(n)
+
+    """
+
+    if not root:
+        return []
+
+    final = []
+    queue = deque()
+    queue.appendleft(root)
+
+    while queue:
+        final.append([])
+        for _ in range(len(queue)):
+            node = queue.popleft()
+            final[-1].append(node.val)
+            if node.left:
+                queue.appendleft(node.left)
+            if node.right:
+                queue.appendleft(node.right)
+    return final
+
+
+
 def level_order_list_per_level(root: Optional[TreeNode]) -> List[List[int]]:
     """level order with one list per level"""
 
@@ -97,4 +125,4 @@ if __name__ == "__main__":
     root.left.right = TreeNode(5)
     root.right.left = TreeNode(6)
     root.right.right = TreeNode(7)
-    print(level_order(root))
+    print(level_order_variation(root))
