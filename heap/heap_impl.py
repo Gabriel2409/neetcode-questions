@@ -24,70 +24,89 @@
 from collections import deque
 
 
-def heapify(arr, i, max_ind=None):
-    """Heapifies index i of array (subsequent indexes must already satisfy the heap property)"""
-    if max_ind is None:
-        max_ind = len(arr)
+def percolate_down(arr, i, limit=None):
+    """nodes at subsequent indexes are supposed to already satisfy the order property"""
 
-    right = 2 * i + 1
-    left = 2 * i + 2
-    largest = i
-    if right < max_ind and arr[largest] < arr[right]:
-        largest = right
-    if left < max_ind and arr[largest] < arr[left]:
-        largest = left
-
-    if largest != i:
-        arr[i], arr[largest] = arr[largest], arr[i]
-        heapify(arr, largest, max_ind)
-
-
-def max_heap(arr):
-    """Applies heapify on all internal nodes"""
-    i = len(arr) // 2 - 1
-
-    while i >= 0:
-        heapify(arr, i)
-        i = i - 1
-
-    return arr
+    if limit is None:
+        limit = len(arr)
+    left = 2 * i + 1
+    right = 2 * i + 2
+    smallest = i
+    if left < limit and arr[left] < arr[smallest]:
+        smallest = left
+    if right < limit and arr[right] < arr[smallest]:
+        smallest = right
+    if smallest != i:
+        arr[smallest], arr[i] = arr[i], arr[smallest]
+        percolate_down(arr, smallest, limit)
 
 
-def heapinsert(arr, num):
-    """arr is a heap here"""
-    arr.append(num)
-    max_heap(arr)
+def percolate_down_iterative(arr, i):
+    while 2 * i + 1 <= len(arr):
+        smallest = i
+        left = 2 * i + 1
+        right = 2 * i + 2
+        if left < len(arr) and arr[left] < arr[smallest]:
+            smallest = left
+        if right < len(arr) and arr[right] < arr[smallest]:
+            smallest = right
+        if smallest != i:
+            arr[smallest], arr[i] = arr[i], arr[smallest]
+        else:
+            break
 
 
-def heapdelete(arr, num):
-    """arr is a heap here"""
-    arr[num], arr[len(arr) - 1] = arr[len(arr) - 1], arr[num]
-    arr.pop()
-    max_heap(arr)
+def percolate_up(arr, i):
+    """nodes at previous indexes are supposed to already satisfy the order property"""
+    parent = (i + 1) // 2 - 1
+    if parent >= 0 and arr[parent] > arr[i]:
+        arr[parent], arr[i] = arr[i], arr[parent]
+        percolate_up(arr, parent)
+
+
+def percolate_up_iterative(arr, i):
+    while i > 0:
+        parent = (i + 1) // 2 - 1
+        if arr[parent] > arr[i]:
+            arr[parent], arr[i] = arr[i], arr[parent]
+        else:
+            break
+
+
+def heapify(arr):
+    for i in range(len(arr) // 2 - 1, -1, -1):
+        percolate_down(arr, i)
+
+
+def hpop(arr):
+    arr[0], arr[-1] = arr[-1], arr[0]
+    val = arr.pop()
+    percolate_down(arr, 0)
+    return val
+
+
+def hpush(arr, val):
+    arr.append(val)
+    percolate_up(arr, len(arr) - 1)
+
+
+arr = [4, 3, 1, 8, 7, 6, 2, 4, 5, 8, 3, 1, 5, 8]
+heapify(arr)
+print(arr)
+hpush(arr, 0)
+hpush(arr, 6)
+hpush(arr, 3)
+hpush(arr, 3)
+while arr:
+    val = hpop(arr)
+    print(val)
 
 
 def heap_sort(arr):
-    final = deque()
-    while arr:
-        max_heap(arr)
-        arr[0], arr[len(arr) - 1] = arr[len(arr) - 1], arr[0]
-        final.appendleft(arr.pop())
-    return final
-
-
-def heap_sort_better(arr):
-    # build max heap
-    i = len(arr) // 2 - 1
-    while i >= 0:
-        heapify(arr, i)
-        i = i - 1
-
-    for i in range(len(arr) - 1, 0, -1):
-        arr[0], arr[i] = arr[i], arr[0]
-        heapify(arr, 0, i)
+    heapify(arr)
+    for i in range(len(arr)):
+        percolate_down(arr, 0, limit=len(arr) - i)
+        arr[0], arr[len(arr) - 1 - i] = arr[len(arr) - 1 - i], arr[0]
     return arr
 
-
-print(max_heap([3, 9, 2, 1, 4, 5]))
-print(heap_sort([3, 9, 2, 1, 4, 5]))
-print(heap_sort_better([3, 9, 2, 1, 4, 5]))
+print(heap_sort([1,2,5,8,74,5,6,321,8,5,2,7,5,1,8,75,23,8,5,7,8,94,1,5,74,0,3,2]))

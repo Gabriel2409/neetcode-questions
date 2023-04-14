@@ -5,7 +5,7 @@ from typing import Optional
 
 
 class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
+    def __init__(self, val: int = 0, left=None, right=None):
         self.val = val
         self.left = left
         self.right = right
@@ -46,20 +46,17 @@ def inorder_traversal_iterative(root: Optional[TreeNode]):
 
     final = []
     stack = []
-    node = root
 
-    while True:
-        while node:
-            stack.append(node)
-            node = node.left
-
-        if stack:
-            node = stack.pop()
-            final.append(node.val)
-            node = node.right
-
+    while root or stack:
+        if root:
+            stack.append(root)
+            root = root.left
         else:
-            return final
+            root = stack.pop()
+            final.append(root.val)
+            root = root.right
+    return final
+
 
 r = TreeNode(4)
 n1 = TreeNode(2)

@@ -7,14 +7,14 @@ class TreeNode:
 
     def __repr__(self):
         return f"v:{self.val}"
-    
+
 
 def print_tree(root, val="val", left="left", right="right"):
     def display(root, val=val, left=left, right=right):
         """Returns list of strings, width, height, and horizontal coordinate of the root."""
         # No child.
         if getattr(root, right) is None and getattr(root, left) is None:
-            line = '%s' % getattr(root, val)
+            line = "%s" % getattr(root, val)
             width = len(line)
             height = 1
             middle = width // 2
@@ -23,47 +23,49 @@ def print_tree(root, val="val", left="left", right="right"):
         # Only left child.
         if getattr(root, right) is None:
             lines, n, p, x = display(getattr(root, left))
-            s = '%s' % getattr(root, val)
+            s = "%s" % getattr(root, val)
             u = len(s)
-            first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s
-            second_line = x * ' ' + '/' + (n - x - 1 + u) * ' '
-            shifted_lines = [line + u * ' ' for line in lines]
+            first_line = (x + 1) * " " + (n - x - 1) * "_" + s
+            second_line = x * " " + "/" + (n - x - 1 + u) * " "
+            shifted_lines = [line + u * " " for line in lines]
             return [first_line, second_line] + shifted_lines, n + u, p + 2, n + u // 2
 
         # Only right child.
         if getattr(root, left) is None:
             lines, n, p, x = display(getattr(root, right))
-            s = '%s' % getattr(root, val)
+            s = "%s" % getattr(root, val)
             u = len(s)
-            first_line = s + x * '_' + (n - x) * ' '
-            second_line = (u + x) * ' ' + '\\' + (n - x - 1) * ' '
-            shifted_lines = [u * ' ' + line for line in lines]
+            first_line = s + x * "_" + (n - x) * " "
+            second_line = (u + x) * " " + "\\" + (n - x - 1) * " "
+            shifted_lines = [u * " " + line for line in lines]
             return [first_line, second_line] + shifted_lines, n + u, p + 2, u // 2
 
         # Two children.
         left, n, p, x = display(getattr(root, left))
         right, m, q, y = display(getattr(root, right))
-        s = '%s' % getattr(root, val)
+        s = "%s" % getattr(root, val)
         u = len(s)
-        first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s + y * '_' + (m - y) * ' '
-        second_line = x * ' ' + '/' + (n - x - 1 + u + y) * ' ' + '\\' + (m - y - 1) * ' '
+        first_line = (x + 1) * " " + (n - x - 1) * "_" + s + y * "_" + (m - y) * " "
+        second_line = (
+            x * " " + "/" + (n - x - 1 + u + y) * " " + "\\" + (m - y - 1) * " "
+        )
         if p < q:
-            left += [n * ' '] * (q - p)
+            left += [n * " "] * (q - p)
         elif q < p:
-            right += [m * ' '] * (p - q)
+            right += [m * " "] * (p - q)
         zipped_lines = zip(left, right)
-        lines = [first_line, second_line] + [a + u * ' ' + b for a, b in zipped_lines]
+        lines = [first_line, second_line] + [a + u * " " + b for a, b in zipped_lines]
         return lines, n + m + u, max(p, q) + 2, n + u // 2
 
     lines, *_ = display(root, val, left, right)
     for line in lines:
         print(line)
 
+
 # Note: tree is balanced but not complete
 def convert_sorted_arr_to_balanced_bst(arr):
-
     def dfs(arr, l, r):
-        if l == r :
+        if l == r:
             return None
 
         mid = (l + r) // 2
@@ -72,11 +74,14 @@ def convert_sorted_arr_to_balanced_bst(arr):
         root.left = dfs(arr, l, mid)
         root.right = dfs(arr, mid + 1, r)
         return root
+
     return dfs(arr, 0, len(arr))
 
-arr = [2,4,6,8,10,12,14,16,18,20]
+
+arr = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
 root = convert_sorted_arr_to_balanced_bst(arr)
 print_tree(root)
+
 
 # val assumed not in tree
 # tree is no more balanced
@@ -86,8 +91,9 @@ def insert(root, val):
     if val > root.val:
         root.right = insert(root.right, val)
     elif val < root.val:
-        root.left = insert(root.left,val)
+        root.left = insert(root.left, val)
     return root
+
 
 insert(root, 9)
 print_tree(root)
@@ -136,13 +142,5 @@ n1.right = n4
 n2.right = n5
 print_tree(root)
 
-remove(root, 3)
+remove(root, 7)
 print_tree(root)
-
-
-
-
-
-    
-
-
