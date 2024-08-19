@@ -19,21 +19,19 @@ def bucket_sort(arr):
 def bucket_sort2(arr):
     min_val = min(arr)
     max_val = max(arr)
+    if min_val == max_val:
+        return arr
 
-    nb_buckets = 8
+    nb_buckets = len(arr)
     buckets = [[] for _ in range(nb_buckets)]
 
     for el in arr:
         ind = int((el - min_val) / (max_val - min_val) * (nb_buckets - 1))
-        print(ind)
         buckets[ind].append(el)
     for buck in buckets:
         buck.sort()
 
-    final_arr = []
-    for buck in buckets:
-        for el in buck:
-            final_arr.append(el)
+    final_arr = [el for buck in buckets for el in buck]
     return final_arr
 
 
